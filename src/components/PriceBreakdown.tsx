@@ -34,12 +34,8 @@ export const PriceBreakdown = ({ bagDetails }: PriceBreakdownProps) => {
 		}
 	};
 
-	// Step 3: Operational Costs (cleaning example - simplified)
-	const cleaningCost = 5; // Fixed cost in KWD for minor cleaning
-
 	const conditionAdjustment = getConditionAdjustment(bagDetails.condition);
-	const priceAfterCondition = basePrice * (1 + conditionAdjustment / 100);
-	const finalPrice = priceAfterCondition + cleaningCost;
+	const finalPrice = basePrice * (1 + conditionAdjustment / 100);
 
 	// Commission Structure based on price tiers
 	const getCommissionSplit = (price: number) => {
@@ -136,40 +132,6 @@ export const PriceBreakdown = ({ bagDetails }: PriceBreakdownProps) => {
 								</div>
 							</Card>
 						)}
-
-						{/* Step 3: Operational Costs */}
-						<Card
-							className="card-warm animate-scale-in"
-							style={{ animationDelay: "0.2s" }}>
-							<div className="p-6">
-								<div className="flex items-center gap-3 mb-4">
-									<div className="p-2 rounded-lg bg-blue-100 text-blue-600">
-										<Wrench className="w-5 h-5" />
-									</div>
-									<div>
-										<h3 className="text-lg font-semibold text-foreground">
-											Step 3: Minor Cleaning
-										</h3>
-										<p className="text-sm text-muted-foreground">
-											Professional cleaning service
-										</p>
-									</div>
-								</div>
-								<div className="flex items-center justify-between">
-									<div className="text-2xl font-bold text-blue-600">
-										+{cleaningCost} KD
-									</div>
-									<div className="text-right">
-										<div className="text-lg font-semibold text-foreground">
-											{finalPrice.toFixed(2)} KD
-										</div>
-										<div className="text-sm text-muted-foreground">
-											Final listing price
-										</div>
-									</div>
-								</div>
-							</div>
-						</Card>
 					</div>
 
 					{/* Final Price Summary */}

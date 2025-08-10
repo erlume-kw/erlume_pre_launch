@@ -63,19 +63,7 @@ export default function Policies() {
 									</p>
 								</CardContent>
 							</Card>
-							<Card>
-								<CardContent className="p-6">
-									<div className="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-amber-100 text-amber-600">
-										<Truck className="h-6 w-6" />
-									</div>
-									<div className="text-base font-semibold">
-										Cleaning & Delivery
-									</div>
-									<p className="mt-1 text-sm text-muted-foreground">
-										We handle cleaning and buyer delivery.
-									</p>
-								</CardContent>
-							</Card>
+
 							<Card>
 								<CardContent className="p-6">
 									<div className="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-purple-100 text-purple-600">
@@ -154,17 +142,7 @@ export default function Policies() {
 											</p>
 										</AccordionContent>
 									</AccordionItem>
-									<AccordionItem value="cleaning">
-										<AccordionTrigger className="px-4">
-											Product Cleaning &amp; Delivery
-										</AccordionTrigger>
-										<AccordionContent className="px-4">
-											<p>
-												<strong>erlume</strong> will handle product cleaning and
-												delivery logistics to the buyer.
-											</p>
-										</AccordionContent>
-									</AccordionItem>
+
 									<AccordionItem value="pricing">
 										<AccordionTrigger className="px-4">
 											Pricing
@@ -183,8 +161,7 @@ export default function Policies() {
 										<AccordionContent className="px-4">
 											<p>
 												A <strong>5–10% commission</strong> will be deducted
-												from the final sale price to cover cleaning and delivery
-												costs.
+												from the final sale price to cover our services.
 											</p>
 										</AccordionContent>
 									</AccordionItem>
