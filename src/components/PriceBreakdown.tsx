@@ -122,7 +122,7 @@ export const PriceBreakdown = ({ bagDetails }: PriceBreakdownProps) => {
 										</div>
 										<div className="text-right">
 											<div className="text-lg font-semibold text-foreground">
-												{priceAfterCondition.toFixed(2)} KD
+												{finalPrice.toFixed(2)} KD
 											</div>
 											<div className="text-sm text-muted-foreground">
 												After adjustment
