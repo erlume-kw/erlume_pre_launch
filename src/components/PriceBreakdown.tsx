@@ -37,53 +37,121 @@ export const PriceBreakdown = ({ bagDetails }: PriceBreakdownProps) => {
 	const conditionAdjustment = getConditionAdjustment(bagDetails.condition);
 	const finalPrice = basePrice * (1 + conditionAdjustment / 100);
 
-	// Commission Structure based on price tiers
-	const getCommissionSplit = (price: number) => {
-		if (price >= 20 && price <= 49.99) {
-			return { yourShare: 90, erlumeShare: 10 }; // 10% commission
-		} else if (price >= 50 && price <= 99.99) {
-			return { yourShare: 92, erlumeShare: 8 }; // 8% commission
-		} else if (price >= 100 && price <= 199.99) {
-			return { yourShare: 94, erlumeShare: 6 }; // 6% commission
-		} else if (price >= 200) {
-			return { yourShare: 95, erlumeShare: 5 }; // 5% commission
-		} else {
-			return { yourShare: 92, erlumeShare: 8 }; // Default fallback
-		}
-	};
+  // Commission tiers based on final price (KWD)
+  // 50–200 → 10%, 200–500 → 8%, 500+ → 5%
+  const getServiceFeePercent = (price: number) => {
+    if (price >= 500) return 5;
+    if (price >= 200) return 8;
+    // Treat anything below 200 as 10%
+    return 10;
+  };
 
-	const commission = getCommissionSplit(finalPrice);
-	const yourEarnings = finalPrice * (commission.yourShare / 100);
-	const erlumeEarnings = finalPrice * (commission.erlumeShare / 100);
+  const serviceFeePercent = getServiceFeePercent(finalPrice);
+  const yourSharePercent = 100 - serviceFeePercent;
 
-	return (
-		<section className="min-h-screen flex items-center justify-center px-4 sm:px-6 lg:px-8 bg-background relative" id="price-breakdown">
-			<div className="max-w-6xl mx-auto w-full h-full">
-				<div className="grid lg:grid-cols-3 gap-8 h-full">
+  const yourEarnings = finalPrice * (yourSharePercent / 100);
+  const erlumeEarnings = finalPrice * (serviceFeePercent / 100);
+
+    return (
+        <section className="min-h-[calc(100svh-56px)] sm:min-h-[calc(100svh-64px)] flex items-center justify-center px-4 sm:px-6 lg:px-8 bg-background relative py-10 lg:py-0 scroll-mt-14 sm:scroll-mt-16" id="price-breakdown">
+            <div className="max-w-6xl mx-auto w-full">
+                {/* Mobile header - match Estimator/HowItWorks/CTA */}
+                <div className="lg:hidden text-center mb-8">
+                    <h2 className="text-2xl sm:text-3xl font-bold mb-4 text-foreground">Here's what you'll earn</h2>
+                    <p className="text-base sm:text-lg text-muted-foreground max-w-2xl mx-auto">Transparent pricing with no hidden fees</p>
+                </div>
+
+                {/* Mobile compact checkout-style card */}
+                <div className="lg:hidden flex justify-center">
+                    <Card className="bg-white border border-border rounded-2xl p-6 shadow-[var(--shadow-soft)] w-full max-w-[420px]">
+                        {/* Total at top */}
+                        <div className="text-center mb-2">
+                            <div className="text-xs font-medium text-muted-foreground">You'll Earn</div>
+                            <div className="text-3xl font-bold text-foreground">{yourEarnings.toFixed(2)} KD</div>
+                        </div>
+
+                        {/* Line items */}
+                        <div className="divide-y">
+                            <div className="flex items-center justify-between py-4">
+                                <span className="text-sm text-muted-foreground">Original Price</span>
+                                <span className="text-sm font-semibold text-foreground">{basePrice.toFixed(2)} KD</span>
+                            </div>
+                            <div className="flex items-center justify-between py-4">
+                                <span className="text-sm text-muted-foreground">Condition Adjustment</span>
+                                <span className="text-sm font-semibold text-muted-foreground">{conditionAdjustment}%</span>
+                            </div>
+                            <div className="flex items-center justify-between py-4">
+                                <span className="text-sm text-muted-foreground">Adjusted Price</span>
+                                <span className="text-sm font-semibold text-foreground">{finalPrice.toFixed(2)} KD</span>
+                            </div>
+                            <div className="flex items-center justify-between py-4">
+                                <span className="text-sm text-muted-foreground">Service Fee</span>
+                                <span className="text-sm font-semibold text-foreground">{erlumeEarnings.toFixed(2)} KD ({serviceFeePercent.toFixed(0)}%)</span>
+                            </div>
+                            <div className="flex items-center justify-between py-4">
+                                <span className="text-base font-semibold text-foreground">Your Earnings</span>
+                                <span className="text-xl font-bold text-foreground">{yourEarnings.toFixed(2)} KD</span>
+                            </div>
+                        </div>
+
+                        {/* What's included */}
+                        <div className="mt-6">
+                            <h4 className="text-sm font-semibold text-foreground mb-3">What's included:</h4>
+                            <div className="space-y-2">
+                                <div className="flex items-center gap-3">
+                                    <CheckCircle className="w-4 h-4 text-palette-terracotta flex-shrink-0" />
+                                    <span className="text-xs text-muted-foreground">Professional photography</span>
+                                </div>
+                                <div className="flex items-center gap-3">
+                                    <CheckCircle className="w-4 h-4 text-palette-terracotta flex-shrink-0" />
+                                    <span className="text-xs text-muted-foreground">Authentication & listing</span>
+                                </div>
+                                <div className="flex items-center gap-3">
+                                    <CheckCircle className="w-4 h-4 text-palette-terracotta flex-shrink-0" />
+                                    <span className="text-xs text-muted-foreground">Free pickup & shipping</span>
+                                </div>
+                                <div className="flex items-center gap-3">
+                                    <CheckCircle className="w-4 h-4 text-palette-terracotta flex-shrink-0" />
+                                    <span className="text-xs text-muted-foreground">Fast payment</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* CTA */}
+                        <Button asChild className="w-full mt-6 text-base py-4">
+                            <a href="https://bit.ly/erlume-seller" target="_blank" rel="noopener noreferrer">
+                                Start Selling Now
+                            </a>
+                        </Button>
+                    </Card>
+                </div>
+
+                {/* Desktop/tablet layout (unchanged content, original cards) */}
+                <div className="hidden lg:grid lg:grid-cols-3 gap-6 lg:gap-8 lg:items-stretch">
 					{/* Price Calculation Steps - More condensed */}
-					<div className="lg:col-span-2 flex flex-col h-full">
-						<div className="animate-fade-in mb-8">
-								<h2 className="text-3xl lg:text-4xl font-bold mb-4 text-foreground">
+                    <div className="lg:col-span-2 flex flex-col items-stretch">
+						<div className="mb-6 lg:mb-8">
+								<h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-4 text-foreground">
 									Here's what you'll earn
 								</h2>
-								<p className="text-lg text-muted-foreground">
+								<p className="text-base sm:text-lg text-muted-foreground">
 									Transparent pricing with no hidden fees
 								</p>
 							</div>
 						
 
-						{/* Cards Container - Stretches to fill remaining height */}
-						<div className="flex flex-col justify-between flex-1 space-y-4">
+                        {/* Cards Container */}
+                        <div className="flex flex-col space-y-4 lg:space-y-6 lg:flex-1">
 						
 							{/* Step 1: Base Price */}
-							<Card className="bg-white border border-border rounded-xl p-4 shadow-[var(--shadow-soft)] animate-scale-in flex-1 hover:shadow-[var(--shadow-medium)] transition-shadow">
-								<div className="flex items-center justify-between h-full">
+                            <Card className="w-full bg-white border border-border rounded-xl p-4 shadow-[var(--shadow-soft)] hover:shadow-[var(--shadow-medium)] transition-shadow lg:flex-1 lg:flex lg:flex-col">
+                                <div className="flex items-center justify-between lg:items-center lg:justify-between">
 									<div className="flex items-center gap-3">
 										<div className="p-2 rounded-lg bg-gray-100 text-gray-700">
 											<DollarSign className="w-4 h-4" />
 										</div>
 										<div>
-											<h3 className="text-base font-semibold text-foreground">
+											<h3 className="text-sm lg:text-base font-semibold text-foreground">
 												Original Price
 											</h3>
 											<p className="text-xs text-muted-foreground">
@@ -92,7 +160,7 @@ export const PriceBreakdown = ({ bagDetails }: PriceBreakdownProps) => {
 										</div>
 									</div>
 									<div className="text-right">
-										<div className="text-2xl font-bold text-foreground">
+										<div className="text-lg lg:text-2xl font-bold text-foreground">
 											{basePrice.toFixed(2)} KD
 										</div>
 									</div>
@@ -100,16 +168,14 @@ export const PriceBreakdown = ({ bagDetails }: PriceBreakdownProps) => {
 							</Card>
 
 							{/* Step 2: Condition Adjustment */}
-							<Card
-								className="bg-white border border-border rounded-xl p-4 shadow-[var(--shadow-soft)] animate-scale-in flex-1 hover:shadow-[var(--shadow-medium)] transition-shadow"
-								style={{ animationDelay: "0.1s" }}>
-								<div className="flex items-center justify-between h-full">
+                            <Card className="w-full bg-white border border-border rounded-xl p-4 shadow-[var(--shadow-soft)] hover:shadow-[var(--shadow-medium)] transition-shadow lg:flex-1 lg:flex lg:flex-col">
+                                <div className="flex items-center justify-between lg:items-center lg:justify-between">
 									<div className="flex items-center gap-3">
 										<div className="p-2 rounded-lg bg-gray-100 text-gray-700">
 											<Star className="w-4 h-4" />
 										</div>
 										<div>
-											<h3 className="text-base font-semibold text-foreground">
+											<h3 className="text-sm lg:text-base font-semibold text-foreground">
 												Condition Adjustment
 											</h3>
 											<p className="text-xs text-muted-foreground">
@@ -122,10 +188,10 @@ export const PriceBreakdown = ({ bagDetails }: PriceBreakdownProps) => {
 										</div>
 									</div>
 									<div className="text-right">
-										<div className="text-lg font-bold text-muted-foreground">
+										<div className="text-sm lg:text-lg font-bold text-muted-foreground">
 											{conditionAdjustment}%
 										</div>
-										<div className="text-xl font-bold text-foreground">
+										<div className="text-lg lg:text-xl font-bold text-foreground">
 											{finalPrice.toFixed(2)} KD
 										</div>
 									</div>
@@ -133,14 +199,14 @@ export const PriceBreakdown = ({ bagDetails }: PriceBreakdownProps) => {
 							</Card>
 
 							{/* Commission Info */}
-							<Card className="bg-gray-50 border border-border rounded-xl p-4 shadow-[var(--shadow-soft)] animate-scale-in flex-1 hover:shadow-[var(--shadow-medium)] transition-shadow" style={{ animationDelay: "0.2s" }}>
-								<div className="flex items-center justify-between h-full">
+                            <Card className="w-full bg-gray-50 border border-border rounded-xl p-4 shadow-[var(--shadow-soft)] hover:shadow-[var(--shadow-medium)] transition-shadow lg:flex-1 lg:flex lg:flex-col">
+                                <div className="flex items-center justify-between lg:items-center lg:justify-between">
 									<div className="flex items-center gap-3">
 										<div className="p-2 rounded-lg bg-palette-terracotta/10 text-palette-terracotta">
 											<Package className="w-4 h-4" />
 										</div>
 										<div>
-											<h3 className="text-base font-semibold text-foreground">
+											<h3 className="text-sm lg:text-base font-semibold text-foreground">
 												Our Service Fee
 											</h3>
 											<p className="text-xs text-muted-foreground">
@@ -149,10 +215,10 @@ export const PriceBreakdown = ({ bagDetails }: PriceBreakdownProps) => {
 										</div>
 									</div>
 									<div className="text-right">
-										<div className="text-lg font-bold text-palette-terracotta">
-											{commission.erlumeShare}%
-										</div>
-										<div className="text-xl font-bold text-foreground">
+                                    <div className="text-sm lg:text-lg font-bold text-palette-terracotta">
+                                            {serviceFeePercent.toFixed(0)}%
+                                        </div>
+										<div className="text-lg lg:text-xl font-bold text-foreground">
 											{erlumeEarnings.toFixed(2)} KD
 										</div>
 									</div>
@@ -161,28 +227,28 @@ export const PriceBreakdown = ({ bagDetails }: PriceBreakdownProps) => {
 						</div>
 					</div>
 
-					{/* Final Price Summary - Keep the same */}
-					<div className="flex flex-col justify-center space-y-6">
+					{/* Final Price Summary */}
+                    <div className="flex flex-col space-y-4 lg:space-y-6 items-stretch lg:h-full">
 						{/* Total Selling Price */}
-						<Card className="bg-black text-white rounded-2xl p-6 shadow-[var(--shadow-large)] animate-scale-in" style={{ animationDelay: "0.3s" }}>
-							<div className="text-center p-6">
-								<h3 className="text-lg font-semibold mb-3 text-white">
+                        <Card className="w-full bg-black text-white rounded-xl lg:rounded-2xl p-4 lg:p-6 shadow-[var(--shadow-large)] lg:flex-1 lg:flex lg:flex-col">
+                            <div className="text-center lg:text-left p-4 lg:p-6">
+                                <h3 className="text-base lg:text-lg font-semibold mb-3 text-white">
 									You'll Earn
 								</h3>
-								<div className="text-4xl font-bold mb-6 text-white">
+                                <div className="text-3xl lg:text-4xl font-bold mb-4 lg:mb-6 text-white">
 									{yourEarnings.toFixed(2)} KD
 								</div>
-								<div className="space-y-3">
-									<div className="flex justify-between items-center text-white/80">
-										<span>Service Fee</span>
-										<span className="font-semibold">
+                                <div className="space-y-3">
+                                    <div className="flex justify-between items-center text-white/80">
+                                        <span className="text-sm lg:text-base">Service Fee ({serviceFeePercent.toFixed(0)}%)</span>
+										<span className="font-semibold text-sm lg:text-base">
 											{erlumeEarnings.toFixed(2)} KD
 										</span>
 									</div>
 									<div className="h-px bg-white/20"></div>
-									<div className="flex justify-between items-center text-white">
-										<span className="font-semibold">Your Earnings</span>
-										<span className="text-2xl font-bold">
+                                    <div className="flex justify-between items-center text-white">
+										<span className="font-semibold text-sm lg:text-base">Your Earnings</span>
+										<span className="text-xl lg:text-2xl font-bold">
 											{yourEarnings.toFixed(2)} KD
 										</span>
 									</div>
@@ -191,41 +257,39 @@ export const PriceBreakdown = ({ bagDetails }: PriceBreakdownProps) => {
 						</Card>
 
 						{/* Benefits */}
-						<Card className="bg-white border border-border rounded-2xl p-6 shadow-[var(--shadow-soft)] animate-scale-in hover:shadow-[var(--shadow-medium)] transition-shadow" style={{ animationDelay: "0.4s" }}>
-							<div className="space-y-4">
-								<h4 className="font-semibold text-foreground">What's included:</h4>
-								<div className="space-y-3">
+                        <Card className="w-full bg-white border border-border rounded-xl lg:rounded-2xl p-4 lg:p-6 shadow-[var(--shadow-soft)] hover:shadow-[var(--shadow-medium)] transition-shadow lg:flex-initial">
+							<div className="space-y-3 lg:space-y-4">
+								<h4 className="font-semibold text-foreground text-sm lg:text-base">What's included:</h4>
+								<div className="space-y-2 lg:space-y-3">
 									<div className="flex items-center gap-3">
-										<CheckCircle className="w-4 h-4 text-palette-terracotta" />
-										<span className="text-sm text-muted-foreground">Professional photography</span>
+										<CheckCircle className="w-4 h-4 text-palette-terracotta flex-shrink-0" />
+										<span className="text-xs lg:text-sm text-muted-foreground">Professional photography</span>
 									</div>
 									<div className="flex items-center gap-3">
-										<CheckCircle className="w-4 h-4 text-palette-terracotta" />
-										<span className="text-sm text-muted-foreground">Authentication & listing</span>
+										<CheckCircle className="w-4 h-4 text-palette-terracotta flex-shrink-0" />
+										<span className="text-xs lg:text-sm text-muted-foreground">Authentication & listing</span>
 									</div>
 									<div className="flex items-center gap-3">
-										<CheckCircle className="w-4 h-4 text-palette-terracotta" />
-										<span className="text-sm text-muted-foreground">Free pickup & shipping</span>
+										<CheckCircle className="w-4 h-4 text-palette-terracotta flex-shrink-0" />
+										<span className="text-xs lg:text-sm text-muted-foreground">Free pickup & shipping</span>
 									</div>
 									<div className="flex items-center gap-3">
-										<CheckCircle className="w-4 h-4 text-palette-terracotta" />
-										<span className="text-sm text-muted-foreground">Fast payment</span>
+										<CheckCircle className="w-4 h-4 text-palette-terracotta flex-shrink-0" />
+										<span className="text-xs lg:text-sm text-muted-foreground">Fast payment</span>
 									</div>
 								</div>
 							</div>
 						</Card>
 
 						{/* Instant WhatsApp CTA */}
-						<div
-							className="animate-fade-in"
-							style={{ animationDelay: "0.5s" }}>
-							<Button asChild className="w-full btn-hero text-lg px-6 py-5 group">
+						<div>
+							<Button asChild className="w-full text-base lg:text-lg px-4 lg:px-6 py-4 lg:py-5 group">
 								<a
 									href="https://bit.ly/erlume-seller"
 									target="_blank"
 									rel="noopener noreferrer">
 									Start Selling Now
-									<MessageCircle className="w-5 h-5 ml-3 group-hover:translate-x-0.5 transition-transform" />
+									<MessageCircle className="w-4 h-4 lg:w-5 lg:h-5 ml-2 lg:ml-3 group-hover:translate-x-0.5 transition-transform" />
 								</a>
 							</Button>
 							

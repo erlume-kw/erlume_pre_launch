@@ -92,10 +92,10 @@ export default function Navbar() {
 					<Sheet open={isOpen} onOpenChange={setIsOpen}>
 						<SheetTrigger asChild>
 							<Button 
-								variant="outline" 
+								variant="ghost" 
 								size="icon" 
 								aria-label="Open menu"
-								className="transition-all duration-normal ease-smooth hover:scale-105"
+								className="transition-all duration-normal ease-smooth hover:scale-105 min-h-[44px] min-w-[44px]"
 							>
 								{isOpen ? (
 									<X className="h-5 w-5 transition-transform duration-normal ease-smooth" />
@@ -105,14 +105,12 @@ export default function Navbar() {
 							</Button>
 						</SheetTrigger>
 						<SheetContent 
-							side="left" 
-							className="w-72 border-r border-border bg-background/95 backdrop-blur-sm"
+							side="right" 
+							className="w-72 border-l border-border bg-background/95 backdrop-blur-sm"
 							data-sheet
 						>
-							<div className="mt-2">
-								<Logo onClick={() => setIsOpen(false)} />
-							</div>
-							<div className="mt-6 grid gap-3">
+						
+							<div className="mt-8 grid gap-4 pb-20">
 								{navItems.map((item) => (
 									<NavLink
 										key={item.to}
@@ -120,7 +118,7 @@ export default function Navbar() {
 										onClick={() => setIsOpen(false)}
 										className={({ isActive }) =>
 											cn(
-												"rounded-lg px-3 py-3 text-base font-medium transition-all duration-normal ease-smooth hover:bg-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50 hover:scale-105",
+												"rounded-lg px-4 py-4 text-base font-medium transition-all duration-normal ease-smooth hover:bg-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50 hover:scale-105 min-h-[44px]",
 												isActive ? "text-primary bg-muted/50" : "text-muted-foreground",
 											)
 										}>
@@ -130,7 +128,7 @@ export default function Navbar() {
 							</div>
 							
 							{/* Mobile menu footer */}
-							<div className="absolute bottom-6 left-6 right-6">
+							<div className="absolute bottom-8 left-6 right-6">
 								<div className="text-xs text-muted-foreground text-center">
 									Trusted luxury resale platform
 								</div>

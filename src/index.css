@@ -439,6 +439,13 @@ button, a, input, select, textarea {
   .input-small, .select-small {
     @apply h-9 px-2.5 py-1.5 text-xs rounded-sm;
   }
+
+  /* Reduce motion within the estimator form on mobile to improve smoothness */
+  #estimator-form * {
+    transition: none !important;
+    animation: none !important;
+    transform: none !important;
+  }
 }
 
 /* Animation keyframes */

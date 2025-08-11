@@ -9,18 +9,18 @@ export default function About() {
 				canonicalPath="/about"
 			/>
 			<main>
-				<section className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
+				<section className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 py-10 sm:py-16">
 					<div className="text-center mb-12">
-						<h1 className="mb-6 text-4xl font-bold tracking-tight sm:text-5xl text-foreground">
+						<h1 className="mb-6 text-3xl font-bold tracking-tight sm:text-4xl text-foreground">
 							About erlume
 						</h1>
-						<p className="text-xl text-muted-foreground max-w-2xl mx-auto">
+						<p className="text-base sm:text-lg text-muted-foreground max-w-2xl mx-auto">
 							Kuwait's trusted destination for luxury pre-loved bags
 						</p>
 					</div>
 					
 					<article className="prose prose-neutral dark:prose-invert max-w-none">
-						<div className="bg-card border border-border rounded-2xl p-8 shadow-[var(--shadow-soft)]">
+						<div className="bg-card border border-border rounded-2xl p-6 sm:p-8 shadow-[var(--shadow-soft)]">
 							<p className="text-lg leading-relaxed mb-6">
 								Erlume is Kuwait's curated destination for pre-loved treasures
 								where every piece carries a story. We're a trusted community
