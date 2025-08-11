@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { HeroSection } from "@/components/HeroSection";
 import { EstimatorForm } from "@/components/EstimatorForm";
 import { PriceBreakdown } from "@/components/PriceBreakdown";
@@ -17,11 +17,9 @@ interface BagDetails {
 const Index = () => {
   const [currentStep, setCurrentStep] = useState<'hero' | 'form' | 'breakdown'>('hero');
   const [bagDetails, setBagDetails] = useState<BagDetails | null>(null);
-  const [isScrolling, setIsScrolling] = useState(false);
 
   // Smooth scroll utility
   const smoothScrollTo = (elementId: string, delay: number = 100) => {
-    setIsScrolling(true);
     setTimeout(() => {
       const element = document.getElementById(elementId);
       if (element) {
@@ -31,7 +29,6 @@ const Index = () => {
           inline: 'nearest'
         });
       }
-      setTimeout(() => setIsScrolling(false), 1000);
     }, delay);
   };
 
@@ -52,30 +49,8 @@ const Index = () => {
     smoothScrollTo('estimator-form');
   };
 
-  // Add scroll-based animations
-  useEffect(() => {
-    const observerOptions = {
-      threshold: 0.1,
-      rootMargin: '0px 0px -50px 0px'
-    };
-
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('animate-fade-in-up');
-        }
-      });
-    }, observerOptions);
-
-    // Observe all sections
-    const sections = document.querySelectorAll('section');
-    sections.forEach(section => observer.observe(section));
-
-    return () => observer.disconnect();
-  }, []);
-
   return (
-    <div className={`${isScrolling ? 'scroll-smooth' : ''}`}>
+    <div>
       {/* Hero Section - Always visible */}
       <HeroSection onGetStarted={handleGetStarted} />
       

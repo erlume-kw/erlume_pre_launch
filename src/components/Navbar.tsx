@@ -14,7 +14,7 @@ const Logo = ({ onClick }: { onClick?: () => void }) => (
 	<Link
 		to="/"
 		onClick={onClick}
-		className="flex items-center gap-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50 rounded transition-transform hover:scale-105"
+		className="flex items-center gap-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50 rounded-lg transition-all duration-normal ease-smooth hover:scale-105"
 		aria-label="Erlume Home">
 		<img
 			src={new URL(
@@ -62,7 +62,7 @@ export default function Navbar() {
 	return (
 		<header
 			className={cn(
-				"sticky top-0 z-40 w-full border-b bg-background/80 backdrop-blur supports-[backdrop-filter]:bg-background/60 transition-all duration-300",
+				"sticky top-0 z-40 w-full border-b bg-background/80 backdrop-blur supports-[backdrop-filter]:bg-background/60 transition-all duration-normal ease-smooth",
 				isScrolled ? "shadow-sm" : "shadow-none",
 			)}>
 			<nav className="mx-auto flex h-14 max-w-7xl items-center justify-between px-4 sm:h-16 sm:px-6 lg:px-8">
@@ -76,11 +76,10 @@ export default function Navbar() {
 							to={item.to}
 							className={({ isActive }) =>
 								cn(
-									"relative text-sm font-medium transition-all duration-300 hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50 rounded px-3 py-2",
-									"after:absolute after:left-0 after:-bottom-2 after:h-0.5 after:w-full after:origin-left after:scale-x-0 after:bg-primary after:transition-transform after:duration-300",
+									"relative text-sm font-medium transition-all duration-normal ease-smooth hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50 rounded-lg px-3 py-2 hover:scale-105",
 									isActive
-										? "text-primary after:scale-x-100"
-										: "text-muted-foreground after:scale-x-0 hover:after:scale-x-100",
+										? "text-primary bg-muted"
+										: "text-foreground hover:bg-muted/50",
 								)
 							}>
 							{item.label}
@@ -96,12 +95,12 @@ export default function Navbar() {
 								variant="outline" 
 								size="icon" 
 								aria-label="Open menu"
-								className="transition-all duration-300 hover:scale-105"
+								className="transition-all duration-normal ease-smooth hover:scale-105"
 							>
 								{isOpen ? (
-									<X className="h-5 w-5 transition-transform duration-300" />
+									<X className="h-5 w-5 transition-transform duration-normal ease-smooth" />
 								) : (
-									<Menu className="h-5 w-5 transition-transform duration-300" />
+									<Menu className="h-5 w-5 transition-transform duration-normal ease-smooth" />
 								)}
 							</Button>
 						</SheetTrigger>
@@ -121,7 +120,7 @@ export default function Navbar() {
 										onClick={() => setIsOpen(false)}
 										className={({ isActive }) =>
 											cn(
-												"rounded-md px-3 py-3 text-base font-medium transition-all duration-300 hover:bg-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50 hover:scale-105",
+												"rounded-lg px-3 py-3 text-base font-medium transition-all duration-normal ease-smooth hover:bg-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50 hover:scale-105",
 												isActive ? "text-primary bg-muted/50" : "text-muted-foreground",
 											)
 										}>

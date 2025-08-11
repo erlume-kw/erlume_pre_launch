@@ -95,7 +95,7 @@ export const Footer = () => {
 
         {/* Bottom Bar */}
         <div className="py-8 flex flex-col sm:flex-row justify-center items-center gap-4">
-          <p className="text-sm text-muted-foreground">
+          <p className="text-sm text-foreground">
             © {currentYear} Erlume. All rights reserved.
           </p>
         </div>

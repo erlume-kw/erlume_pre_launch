@@ -33,7 +33,7 @@ export default function Policies() {
 						Policies
 					</h1>
 					<div className="space-y-12">
-						<p className="text-lg text-muted-foreground max-w-3xl">
+						<p className="text-lg text--foreground max-w-3xl">
 							A concise overview of our key policies. Tap any section to expand
 							for details.
 						</p>
@@ -41,24 +41,24 @@ export default function Policies() {
 						<div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
 							<Card className="bg-white border border-border">
 								<CardContent className="p-6">
-									<div className="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-muted text-primary">
+									<div className="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-accent text-primary">
 										<ShieldCheck className="h-6 w-6" />
 									</div>
 									<div className="text-base font-semibold text-foreground">Authentication</div>
-									<p className="mt-1 text-sm text-muted-foreground">
+									<p className="mt-1 text-sm text--foreground">
 										Every item is authenticated. Counterfeits are declined.
 									</p>
 								</CardContent>
 							</Card>
 							<Card className="bg-white border border-border">
 								<CardContent className="p-6">
-									<div className="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-muted text-primary">
+									<div className="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-accent text-primary">
 										<Package className="h-6 w-6" />
 									</div>
 									<div className="text-base font-semibold text-foreground">
 										Handling & Listing
 									</div>
-									<p className="mt-1 text-sm text-muted-foreground">
+									<p className="mt-1 text-sm text-foreground">
 										We collect, photograph, and list for you.
 									</p>
 								</CardContent>
@@ -66,33 +66,33 @@ export default function Policies() {
 
 							<Card className="bg-white border border-border">
 								<CardContent className="p-6">
-									<div className="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-muted text-primary">
+									<div className="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-accent text-primary">
 										<Tag className="h-6 w-6" />
 									</div>
 									<div className="text-base font-semibold text-foreground">Pricing</div>
-									<p className="mt-1 text-sm text-muted-foreground">
+									<p className="mt-1 text-sm text-foreground">
 										We negotiate pricing on your behalf.
 									</p>
 								</CardContent>
 							</Card>
 							<Card className="bg-white border border-border">
 								<CardContent className="p-6">
-									<div className="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-muted text-primary">
+									<div className="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-accent text-primary">
 										<Percent className="h-6 w-6" />
 									</div>
 									<div className="text-base font-semibold text-foreground">Commission</div>
-									<p className="mt-1 text-sm text-muted-foreground">
+									<p className="mt-1 text-sm text-foreground">
 										5–10% deducted to cover services.
 									</p>
 								</CardContent>
 							</Card>
 							<Card className="bg-white border border-border">
 								<CardContent className="p-6">
-									<div className="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-muted text-primary">
+									<div className="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-accent text-primary">
 										<Lock className="h-6 w-6" />
 									</div>
 									<div className="text-base font-semibold text-foreground">Final Sale</div>
-									<p className="mt-1 text-sm text-muted-foreground">
+									<p className="mt-1 text-sm text-foreground">
 										After inspection and confirmation, sales are final.
 									</p>
 								</CardContent>
@@ -302,11 +302,11 @@ export default function Policies() {
 
 							<Card className="bg-muted/30 border border-border">
 								<CardContent className="p-6">
-									<div className="mb-2 flex items-center gap-2 text-sm font-medium text-muted-foreground">
+									<div className="mb-2 flex items-center gap-2 text-sm font-medium text-foreground">
 										<Percent className="h-4 w-4" />
 										Commission Calculation
 									</div>
-									<blockquote className="border-l-2 pl-4 text-muted-foreground">
+									<blockquote className="border-l-2 pl-4 text-foreground">
 										This pricing is used to calculate our commission, noting
 										that the{" "}
 										<strong>

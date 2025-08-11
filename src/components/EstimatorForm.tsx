@@ -86,28 +86,24 @@ export const EstimatorForm = ({ onCalculate }: EstimatorFormProps) => {
 		bagDetails.brand && bagDetails.condition && bagDetails.originalPrice > 0;
 
 	return (
-		<section className="py-16 px-4 sm:px-6 lg:px-8 bg-background" id="estimator-form">
-			<div className="max-w-4xl mx-auto">
-				<div className="text-center mb-12 animate-fade-in-up">
-					<div className="inline-flex items-center gap-2 bg-muted px-4 py-2 rounded-full text-sm font-medium text-foreground mb-6">
-						<Sparkles className="w-4 h-4 text-primary" />
-						Quick Estimate
-					</div>
+		<section className="min-h-screen h-screen flex items-center justify-center px-4 sm:px-6 lg:px-8 bg-background relative" id="estimator-form">
+			<div className="max-w-4xl mx-auto w-full">
+				<div className="text-center mb-12">
 					<h2 className="text-3xl lg:text-4xl font-bold mb-4 text-foreground">
 						Tell us about your bag
 					</h2>
-					<p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+					<p className="text-lg text-foreground max-w-2xl mx-auto">
 						Just 3 simple questions to get your instant price estimate
 					</p>
 				</div>
 
-				<Card className="bg-white border border-border rounded-2xl p-8 shadow-[var(--shadow-soft)] animate-scale-in">
+				<Card className="bg-white border border-border rounded-xl p-8 shadow-sm">
 					<form onSubmit={handleSubmit} className="space-y-8">
 						<div className="grid md:grid-cols-2 gap-6">
 							{/* Brand Selection */}
 							<div className="space-y-3">
 								<Label className="flex items-center gap-3 text-base font-semibold text-foreground">
-									<div className="p-2 rounded-lg bg-muted text-primary">
+									<div className="p-2 rounded-lg bg-palette-blush text-foreground">
 										<Package className="w-4 h-4" />
 									</div>
 									Brand
@@ -116,12 +112,12 @@ export const EstimatorForm = ({ onCalculate }: EstimatorFormProps) => {
 									onValueChange={(value) =>
 										setBagDetails({ ...bagDetails, brand: value })
 									}>
-									<SelectTrigger className="h-12 bg-white border border-border rounded-xl px-4 focus:ring-2 focus:ring-primary/20 focus:border-primary transition-[var(--transition-smooth)]">
+									<SelectTrigger className="h-12">
 										<SelectValue placeholder="Select brand" className="text-foreground" />
 									</SelectTrigger>
-									<SelectContent className="bg-white border border-border rounded-xl shadow-[var(--shadow-large)] max-h-60">
+									<SelectContent className="bg-white border border-border rounded-xl shadow-lg max-h-60">
 										{brands.map((brand) => (
-											<SelectItem key={brand} value={brand} className="text-foreground rounded-lg">
+											<SelectItem key={brand} value={brand} className="text-foreground rounded-lg hover:bg-palette-blush">
 												{brand}
 											</SelectItem>
 										))}
@@ -132,7 +128,7 @@ export const EstimatorForm = ({ onCalculate }: EstimatorFormProps) => {
 							{/* Condition */}
 							<div className="space-y-3">
 								<Label className="flex items-center gap-3 text-base font-semibold text-foreground">
-									<div className="p-2 rounded-lg bg-muted text-primary">
+									<div className="p-2 rounded-lg bg-palette-blush text-foreground">
 										<Calculator className="w-4 h-4" />
 									</div>
 									Condition
@@ -141,15 +137,17 @@ export const EstimatorForm = ({ onCalculate }: EstimatorFormProps) => {
 									onValueChange={(value) =>
 										setBagDetails({ ...bagDetails, condition: value })
 									}>
-									<SelectTrigger className="h-12 bg-white border border-border rounded-xl px-4 focus:ring-2 focus:ring-primary/20 focus:border-primary transition-[var(--transition-smooth)]">
-										<SelectValue placeholder="Select condition" className="text-foreground" />
+									<SelectTrigger className="h-12">
+										<SelectValue placeholder="Select condition" className="text-foreground">
+											{bagDetails.condition && conditions.find(c => c.value === bagDetails.condition)?.label}
+										</SelectValue>
 									</SelectTrigger>
-									<SelectContent className="bg-white border border-border rounded-xl shadow-[var(--shadow-large)]">
+									<SelectContent className="bg-white border border-border rounded-xl shadow-lg">
 										{conditions.map((condition) => (
-											<SelectItem key={condition.value} value={condition.value} className="text-foreground rounded-lg">
+											<SelectItem key={condition.value} value={condition.value} className="text-foreground rounded-lg hover:bg-palette-blush">
 												<div>
 													<div className="font-medium">{condition.label}</div>
-													<div className="text-sm text-muted-foreground">{condition.description}</div>
+													<div className="text-sm text-foreground">{condition.description}</div>
 												</div>
 											</SelectItem>
 										))}
@@ -160,7 +158,7 @@ export const EstimatorForm = ({ onCalculate }: EstimatorFormProps) => {
 							{/* Original Price */}
 							<div className="space-y-3 md:col-span-2">
 								<Label className="flex items-center gap-3 text-base font-semibold text-foreground">
-									<div className="p-2 rounded-lg bg-muted text-primary">
+									<div className="p-2 rounded-lg bg-palette-blush text-foreground">
 										<DollarSign className="w-4 h-4" />
 									</div>
 									What did you pay for it?
@@ -169,7 +167,7 @@ export const EstimatorForm = ({ onCalculate }: EstimatorFormProps) => {
 									<Input
 										type="number"
 										placeholder="0"
-										className="h-12 bg-white border border-border rounded-xl px-16 text-lg text-foreground focus:ring-2 focus:ring-primary/20 focus:border-primary transition-[var(--transition-smooth)]"
+										className="h-12 px-16 text-lg text-foreground"
 										value={bagDetails.originalPrice || ""}
 										onChange={(e) =>
 											setBagDetails({
@@ -178,11 +176,11 @@ export const EstimatorForm = ({ onCalculate }: EstimatorFormProps) => {
 											})
 										}
 									/>
-									<span className="absolute left-4 top-1/2 -translate-y-1/2 text-muted-foreground font-semibold text-lg">
+									<span className="absolute left-4 top-1/2 -translate-y-1/2 text-foreground font-semibold text-lg">
 										KD
 									</span>
 								</div>
-								<p className="text-sm text-muted-foreground">
+								<p className="text-sm text-foreground">
 									This helps us determine the current market value
 								</p>
 							</div>
@@ -191,12 +189,13 @@ export const EstimatorForm = ({ onCalculate }: EstimatorFormProps) => {
 						<div className="flex justify-center pt-4">
 							<Button
 								type="submit"
+								size="lg"
 								disabled={!isValid || isCalculating}
-								className="btn-hero text-lg px-10 py-5 disabled:opacity-50 disabled:cursor-not-allowed min-w-[200px]"
+								className="min-w-[200px] bg-palette-terracotta hover:bg-palette-terracotta/90 text-white"
 							>
 								{isCalculating ? (
 									<>
-										<div className="w-5 h-5 border-2 border-primary-foreground/30 border-t-primary-foreground rounded-full animate-spin mr-3"></div>
+										<div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin mr-3"></div>
 										Calculating...
 									</>
 								) : (
