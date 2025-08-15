@@ -1,6 +1,6 @@
 import { Card } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
-import { Package, Star, Wrench, DollarSign, MessageCircle } from "lucide-react";
+import { Package, Star, Wrench, DollarSign, MessageCircle, TrendingUp, CheckCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 interface BagDetails {
@@ -37,125 +37,218 @@ export const PriceBreakdown = ({ bagDetails }: PriceBreakdownProps) => {
 	const conditionAdjustment = getConditionAdjustment(bagDetails.condition);
 	const finalPrice = basePrice * (1 + conditionAdjustment / 100);
 
-	// Commission Structure based on price tiers
-	const getCommissionSplit = (price: number) => {
-		if (price >= 20 && price <= 49.99) {
-			return { yourShare: 90, erlumeShare: 10 }; // 10% commission
-		} else if (price >= 50 && price <= 99.99) {
-			return { yourShare: 92, erlumeShare: 8 }; // 8% commission
-		} else if (price >= 100 && price <= 199.99) {
-			return { yourShare: 94, erlumeShare: 6 }; // 6% commission
-		} else if (price >= 200) {
-			return { yourShare: 95, erlumeShare: 5 }; // 5% commission
-		} else {
-			return { yourShare: 92, erlumeShare: 8 }; // Default fallback
-		}
-	};
+  // Commission tiers based on final price (KWD)
+  // 50–200 → 10%, 200–500 → 8%, 500+ → 5%
+  const getServiceFeePercent = (price: number) => {
+    if (price >= 500) return 5;
+    if (price >= 200) return 8;
+    // Treat anything below 200 as 10%
+    return 10;
+  };
 
-	const commission = getCommissionSplit(finalPrice);
-	const yourEarnings = finalPrice * (commission.yourShare / 100);
-	const erlumeEarnings = finalPrice * (commission.erlumeShare / 100);
+  const serviceFeePercent = getServiceFeePercent(finalPrice);
+  const yourSharePercent = 100 - serviceFeePercent;
 
-	return (
-		<section className="py-20 px-4 bg-soft-gradient">
-			<div className="max-w-6xl mx-auto">
-				<div className="text-center mb-12 animate-fade-in-up">
-					<h2 className="text-3xl lg:text-4xl font-bold mb-4">
-						Your Price Breakdown
-					</h2>
-					<p className="text-xl text-muted-foreground">
-						Simple, transparent pricing based on true value
-					</p>
-				</div>
+  const yourEarnings = finalPrice * (yourSharePercent / 100);
+  const erlumeEarnings = finalPrice * (serviceFeePercent / 100);
 
-				<div className="grid lg:grid-cols-3 gap-8">
-					{/* Price Calculation Steps */}
-					<div className="lg:col-span-2 space-y-4">
-						{/* Step 1: Base Price */}
-						<Card className="card-warm animate-scale-in">
-							<div className="p-6">
-								<div className="flex items-center gap-3 mb-4">
-									<div className="p-2 rounded-lg bg-primary/10 text-primary">
-										<DollarSign className="w-5 h-5" />
-									</div>
-									<div>
-										<h3 className="text-lg font-semibold text-foreground">
-											Step 1: Base Price
-										</h3>
-										<p className="text-sm text-muted-foreground">
-											Original retail price - the true value
-										</p>
-									</div>
-								</div>
-								<div className="text-3xl font-bold text-foreground">
-									{basePrice.toFixed(2)} KD
-								</div>
+    return (
+        <section className="min-h-[calc(100svh-56px)] sm:min-h-[calc(100svh-64px)] flex items-center justify-center px-4 sm:px-6 lg:px-8 bg-background relative py-10 lg:py-0 scroll-mt-14 sm:scroll-mt-16" id="price-breakdown">
+            <div className="max-w-6xl mx-auto w-full">
+                {/* Mobile header - match Estimator/HowItWorks/CTA */}
+                <div className="lg:hidden text-center mb-8">
+                    <h2 className="text-2xl sm:text-3xl font-bold mb-4 text-foreground">Here's what you'll earn</h2>
+                    <p className="text-base sm:text-lg text-muted-foreground max-w-2xl mx-auto">Transparent pricing with no hidden fees</p>
+                </div>
+
+                {/* Mobile compact checkout-style card */}
+                <div className="lg:hidden flex justify-center">
+                    <Card className="bg-white border border-border rounded-2xl p-6 shadow-[var(--shadow-soft)] w-full max-w-[420px]">
+                        {/* Total at top */}
+                        <div className="text-center mb-2">
+                            <div className="text-xs font-medium text-muted-foreground">You'll Earn</div>
+                            <div className="text-3xl font-bold text-foreground">{yourEarnings.toFixed(2)} KD</div>
+                        </div>
+
+                        {/* Line items */}
+                        <div className="divide-y">
+                            <div className="flex items-center justify-between py-4">
+                                <span className="text-sm text-muted-foreground">Original Price</span>
+                                <span className="text-sm font-semibold text-foreground">{basePrice.toFixed(2)} KD</span>
+                            </div>
+                            <div className="flex items-center justify-between py-4">
+                                <span className="text-sm text-muted-foreground">Condition Adjustment</span>
+                                <span className="text-sm font-semibold text-muted-foreground">{conditionAdjustment}%</span>
+                            </div>
+                            <div className="flex items-center justify-between py-4">
+                                <span className="text-sm text-muted-foreground">Adjusted Price</span>
+                                <span className="text-sm font-semibold text-foreground">{finalPrice.toFixed(2)} KD</span>
+                            </div>
+                            <div className="flex items-center justify-between py-4">
+                                <span className="text-sm text-muted-foreground">Service Fee</span>
+                                <span className="text-sm font-semibold text-foreground">{erlumeEarnings.toFixed(2)} KD ({serviceFeePercent.toFixed(0)}%)</span>
+                            </div>
+                            <div className="flex items-center justify-between py-4">
+                                <span className="text-base font-semibold text-foreground">Your Earnings</span>
+                                <span className="text-xl font-bold text-foreground">{yourEarnings.toFixed(2)} KD</span>
+                            </div>
+                        </div>
+
+                        {/* What's included */}
+                        <div className="mt-6">
+                            <h4 className="text-sm font-semibold text-foreground mb-3">What's included:</h4>
+                            <div className="space-y-2">
+                                <div className="flex items-center gap-3">
+                                    <CheckCircle className="w-4 h-4 text-palette-terracotta flex-shrink-0" />
+                                    <span className="text-xs text-muted-foreground">Professional photography</span>
+                                </div>
+                                <div className="flex items-center gap-3">
+                                    <CheckCircle className="w-4 h-4 text-palette-terracotta flex-shrink-0" />
+                                    <span className="text-xs text-muted-foreground">Authentication & listing</span>
+                                </div>
+                                <div className="flex items-center gap-3">
+                                    <CheckCircle className="w-4 h-4 text-palette-terracotta flex-shrink-0" />
+                                    <span className="text-xs text-muted-foreground">Free pickup & shipping</span>
+                                </div>
+                                <div className="flex items-center gap-3">
+                                    <CheckCircle className="w-4 h-4 text-palette-terracotta flex-shrink-0" />
+                                    <span className="text-xs text-muted-foreground">Fast payment</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* CTA */}
+                        <Button asChild className="w-full mt-6 text-base py-4">
+                            <a href="https://bit.ly/erlume-seller" target="_blank" rel="noopener noreferrer">
+                                Start Selling Now
+                            </a>
+                        </Button>
+                    </Card>
+                </div>
+
+                {/* Desktop/tablet layout (unchanged content, original cards) */}
+                <div className="hidden lg:grid lg:grid-cols-3 gap-6 lg:gap-8 lg:items-stretch">
+					{/* Price Calculation Steps - More condensed */}
+                    <div className="lg:col-span-2 flex flex-col items-stretch">
+						<div className="mb-6 lg:mb-8">
+								<h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-4 text-foreground">
+									Here's what you'll earn
+								</h2>
+								<p className="text-base sm:text-lg text-muted-foreground">
+									Transparent pricing with no hidden fees
+								</p>
 							</div>
-						</Card>
+						
 
-						{/* Step 2: Condition Adjustment */}
-						{conditionAdjustment !== 0 && (
-							<Card
-								className="card-warm animate-scale-in"
-								style={{ animationDelay: "0.1s" }}>
-								<div className="p-6">
-									<div className="flex items-center gap-3 mb-4">
-										<div className="p-2 rounded-lg bg-orange-100 text-orange-600">
-											<Star className="w-5 h-5" />
+                        {/* Cards Container */}
+                        <div className="flex flex-col space-y-4 lg:space-y-6 lg:flex-1">
+						
+							{/* Step 1: Base Price */}
+                            <Card className="w-full bg-white border border-border rounded-xl p-4 shadow-[var(--shadow-soft)] hover:shadow-[var(--shadow-medium)] transition-shadow lg:flex-1 lg:flex lg:flex-col">
+                                <div className="flex items-center justify-between lg:items-center lg:justify-between">
+									<div className="flex items-center gap-3">
+										<div className="p-2 rounded-lg bg-gray-100 text-gray-700">
+											<DollarSign className="w-4 h-4" />
 										</div>
 										<div>
-											<h3 className="text-lg font-semibold text-foreground">
-												Step 2: Condition Adjustment
+											<h3 className="text-sm lg:text-base font-semibold text-foreground">
+												Original Price
 											</h3>
-											<p className="text-sm text-muted-foreground">
-												{bagDetails.condition === "new"
-													? "No deduction for excellent condition"
-													: bagDetails.condition === "gently"
-													? "Minor deduction for gentle wear"
-													: "Fair deduction for visible wear"}
+											<p className="text-xs text-muted-foreground">
+												What you originally paid
 											</p>
 										</div>
 									</div>
-									<div className="flex items-center justify-between">
-										<div className="text-2xl font-bold text-orange-600">
-											{conditionAdjustment}%
-										</div>
-										<div className="text-right">
-											<div className="text-lg font-semibold text-foreground">
-												{finalPrice.toFixed(2)} KD
-											</div>
-											<div className="text-sm text-muted-foreground">
-												After adjustment
-											</div>
+									<div className="text-right">
+										<div className="text-lg lg:text-2xl font-bold text-foreground">
+											{basePrice.toFixed(2)} KD
 										</div>
 									</div>
 								</div>
 							</Card>
-						)}
+
+							{/* Step 2: Condition Adjustment */}
+                            <Card className="w-full bg-white border border-border rounded-xl p-4 shadow-[var(--shadow-soft)] hover:shadow-[var(--shadow-medium)] transition-shadow lg:flex-1 lg:flex lg:flex-col">
+                                <div className="flex items-center justify-between lg:items-center lg:justify-between">
+									<div className="flex items-center gap-3">
+										<div className="p-2 rounded-lg bg-gray-100 text-gray-700">
+											<Star className="w-4 h-4" />
+										</div>
+										<div>
+											<h3 className="text-sm lg:text-base font-semibold text-foreground">
+												Condition Adjustment
+											</h3>
+											<p className="text-xs text-muted-foreground">
+												{bagDetails.condition === "new"
+													? "Perfect condition - no adjustment"
+													: bagDetails.condition === "gently"
+													? "Minor wear adjustment"
+													: "Visible wear adjustment"}
+											</p>
+										</div>
+									</div>
+									<div className="text-right">
+										<div className="text-sm lg:text-lg font-bold text-muted-foreground">
+											{conditionAdjustment}%
+										</div>
+										<div className="text-lg lg:text-xl font-bold text-foreground">
+											{finalPrice.toFixed(2)} KD
+										</div>
+									</div>
+								</div>
+							</Card>
+
+							{/* Commission Info */}
+                            <Card className="w-full bg-gray-50 border border-border rounded-xl p-4 shadow-[var(--shadow-soft)] hover:shadow-[var(--shadow-medium)] transition-shadow lg:flex-1 lg:flex lg:flex-col">
+                                <div className="flex items-center justify-between lg:items-center lg:justify-between">
+									<div className="flex items-center gap-3">
+										<div className="p-2 rounded-lg bg-palette-terracotta/10 text-palette-terracotta">
+											<Package className="w-4 h-4" />
+										</div>
+										<div>
+											<h3 className="text-sm lg:text-base font-semibold text-foreground">
+												Our Service Fee
+											</h3>
+											<p className="text-xs text-muted-foreground">
+												We handle everything: photography, listing, and finding buyers
+											</p>
+										</div>
+									</div>
+									<div className="text-right">
+                                    <div className="text-sm lg:text-lg font-bold text-palette-terracotta">
+                                            {serviceFeePercent.toFixed(0)}%
+                                        </div>
+										<div className="text-lg lg:text-xl font-bold text-foreground">
+											{erlumeEarnings.toFixed(2)} KD
+										</div>
+									</div>
+								</div>
+							</Card>
+						</div>
 					</div>
 
 					{/* Final Price Summary */}
-					<div className="space-y-6">
+                    <div className="flex flex-col space-y-4 lg:space-y-6 items-stretch lg:h-full">
 						{/* Total Selling Price */}
-						<Card className="card-pricing animate-scale-in">
-							<div className="text-center p-6">
-								<h3 className="text-lg font-semibold mb-2 text-white/90">
-									Final Listing Price
+                        <Card className="w-full bg-black text-white rounded-xl lg:rounded-2xl p-4 lg:p-6 shadow-[var(--shadow-large)] lg:flex-1 lg:flex lg:flex-col">
+                            <div className="text-center lg:text-left p-4 lg:p-6">
+                                <h3 className="text-base lg:text-lg font-semibold mb-3 text-white">
+									You'll Earn
 								</h3>
-								<div className="text-4xl font-bold mb-4 text-white">
-									{finalPrice.toFixed(2)} KD
+                                <div className="text-3xl lg:text-4xl font-bold mb-4 lg:mb-6 text-white">
+									{yourEarnings.toFixed(2)} KD
 								</div>
-								<div className="space-y-3">
-									<div className="flex justify-between items-center text-white/80">
-										<span>Erlume's Share</span>
-										<span className="font-semibold">
+                                <div className="space-y-3">
+                                    <div className="flex justify-between items-center text-white/80">
+                                        <span className="text-sm lg:text-base">Service Fee ({serviceFeePercent.toFixed(0)}%)</span>
+										<span className="font-semibold text-sm lg:text-base">
 											{erlumeEarnings.toFixed(2)} KD
 										</span>
 									</div>
 									<div className="h-px bg-white/20"></div>
-									<div className="flex justify-between items-center text-white">
-										<span className="font-semibold">Your Share</span>
-										<span className="text-xl font-bold">
+                                    <div className="flex justify-between items-center text-white">
+										<span className="font-semibold text-sm lg:text-base">Your Earnings</span>
+										<span className="text-xl lg:text-2xl font-bold">
 											{yourEarnings.toFixed(2)} KD
 										</span>
 									</div>
@@ -163,22 +256,43 @@ export const PriceBreakdown = ({ bagDetails }: PriceBreakdownProps) => {
 							</div>
 						</Card>
 
+						{/* Benefits */}
+                        <Card className="w-full bg-white border border-border rounded-xl lg:rounded-2xl p-4 lg:p-6 shadow-[var(--shadow-soft)] hover:shadow-[var(--shadow-medium)] transition-shadow lg:flex-initial">
+							<div className="space-y-3 lg:space-y-4">
+								<h4 className="font-semibold text-foreground text-sm lg:text-base">What's included:</h4>
+								<div className="space-y-2 lg:space-y-3">
+									<div className="flex items-center gap-3">
+										<CheckCircle className="w-4 h-4 text-palette-terracotta flex-shrink-0" />
+										<span className="text-xs lg:text-sm text-muted-foreground">Professional photography</span>
+									</div>
+									<div className="flex items-center gap-3">
+										<CheckCircle className="w-4 h-4 text-palette-terracotta flex-shrink-0" />
+										<span className="text-xs lg:text-sm text-muted-foreground">Authentication & listing</span>
+									</div>
+									<div className="flex items-center gap-3">
+										<CheckCircle className="w-4 h-4 text-palette-terracotta flex-shrink-0" />
+										<span className="text-xs lg:text-sm text-muted-foreground">Free pickup & shipping</span>
+									</div>
+									<div className="flex items-center gap-3">
+										<CheckCircle className="w-4 h-4 text-palette-terracotta flex-shrink-0" />
+										<span className="text-xs lg:text-sm text-muted-foreground">Fast payment</span>
+									</div>
+								</div>
+							</div>
+						</Card>
+
 						{/* Instant WhatsApp CTA */}
-						<div
-							className="animate-fade-in-up"
-							style={{ animationDelay: "0.1s" }}>
-							<Button asChild className="w-full btn-hero group">
+						<div>
+							<Button asChild className="w-full text-base lg:text-lg px-4 lg:px-6 py-4 lg:py-5 group">
 								<a
 									href="https://bit.ly/erlume-seller"
 									target="_blank"
 									rel="noopener noreferrer">
-									Chat on WhatsApp
-									<MessageCircle className="w-5 h-5 ml-2 group-hover:translate-x-0.5 transition-transform" />
+									Start Selling Now
+									<MessageCircle className="w-4 h-4 lg:w-5 lg:h-5 ml-2 lg:ml-3 group-hover:translate-x-0.5 transition-transform" />
 								</a>
 							</Button>
-							<p className="mt-2 text-center text-sm text-muted-foreground">
-								We’ll help finalize pricing, pickup and payout.
-							</p>
+							
 						</div>
 					</div>
 				</div>

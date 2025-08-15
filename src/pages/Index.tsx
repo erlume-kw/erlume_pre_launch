@@ -18,37 +18,39 @@ const Index = () => {
   const [currentStep, setCurrentStep] = useState<'hero' | 'form' | 'breakdown'>('hero');
   const [bagDetails, setBagDetails] = useState<BagDetails | null>(null);
 
+  // Smooth scroll utility
+  const smoothScrollTo = (elementId: string, delay: number = 100) => {
+    setTimeout(() => {
+      const element = document.getElementById(elementId);
+      if (element) {
+        element.scrollIntoView({ 
+          behavior: 'smooth', 
+          block: 'center',
+          inline: 'nearest'
+        });
+      }
+    }, delay);
+  };
+
   const handleGetStarted = () => {
     setCurrentStep('form');
-    // Smooth scroll to form
-    setTimeout(() => {
-      const formSection = document.getElementById('estimator-form');
-      formSection?.scrollIntoView({ behavior: 'smooth' });
-    }, 100);
+    smoothScrollTo('estimator-form');
   };
 
   const handleCalculate = (details: BagDetails) => {
     setBagDetails(details);
     setCurrentStep('breakdown');
-    // Smooth scroll to breakdown
-    setTimeout(() => {
-      const breakdownSection = document.getElementById('price-breakdown');
-      breakdownSection?.scrollIntoView({ behavior: 'smooth' });
-    }, 100);
+    smoothScrollTo('price-breakdown');
   };
 
   const handleStartSelling = () => {
     setCurrentStep('form');
     setBagDetails(null);
-    // Smooth scroll to form
-    setTimeout(() => {
-      const formSection = document.getElementById('estimator-form');
-      formSection?.scrollIntoView({ behavior: 'smooth' });
-    }, 100);
+    smoothScrollTo('estimator-form');
   };
 
   return (
-    <div className="min-h-screen">
+    <div>
       {/* Hero Section - Always visible */}
       <HeroSection onGetStarted={handleGetStarted} />
       
