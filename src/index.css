@@ -907,3 +907,69 @@ button, a, input, select, textarea {
   direction: rtl !important;
 }
 
+/* Center Arabic text on small screens */
+@media (max-width: 640px) {
+  [dir="rtl"] .hero-text {
+    text-align: center !important;
+  }
+  
+  [dir="rtl"] .hero-text.text-center {
+    text-align: center !important;
+  }
+}
+
+/* Center Arabic text on medium screens as well */
+@media (max-width: 1024px) {
+  [dir="rtl"] .hero-text {
+    text-align: center !important;
+  }
+}
+
+/* Ensure centering works on very small screens */
+@media (max-width: 480px) {
+  [dir="rtl"] .hero-text {
+    text-align: center !important;
+  }
+}
+
+/* PriceBreakdown heading and subtitle - center on small and medium screens for Arabic */
+@media (max-width: 1024px) {
+  [dir="rtl"] #price-breakdown h2.text-2xl,
+  [dir="rtl"] #price-breakdown h2.sm\:text-3xl,
+  [dir="rtl"] #price-breakdown h2.lg\:text-4xl {
+    text-align: center !important;
+  }
+  
+  [dir="rtl"] #price-breakdown p.text-base,
+  [dir="rtl"] #price-breakdown p.sm\:text-lg,
+  [dir="rtl"] #price-breakdown p.text-muted-foreground {
+    text-align: center !important;
+  }
+}
+
+/* Fix Arabic text cutoff in hero features */
+@media (max-width: 640px) {
+  [dir="rtl"] .flex.flex-nowrap.items-center.justify-center.gap-4.overflow-hidden {
+    overflow: visible !important;
+    flex-wrap: wrap !important;
+    gap: 0.75rem !important;
+  }
+  
+  [dir="rtl"] .flex.flex-nowrap.items-center.justify-center.gap-4.overflow-hidden > div {
+    flex-shrink: 0 !important;
+    min-width: 0 !important;
+  }
+  
+  [dir="rtl"] .flex.flex-nowrap.items-center.justify-center.gap-4.overflow-hidden span {
+    white-space: normal !important;
+    word-wrap: break-word !important;
+    hyphens: auto !important;
+  }
+}
+
+/* Ensure Arabic text has proper spacing and doesn't get cut off */
+[dir="rtl"] .font-medium {
+  line-height: 1.4 !important;
+  word-spacing: 0.1em !important;
+}
+

@@ -106,7 +106,9 @@ export default function Navbar() {
 					))}
 
 					{/* Language Selector */}
-					<DropdownMenu open={isLanguageDropdownOpen} onOpenChange={setIsLanguageDropdownOpen}>
+					<DropdownMenu
+						open={isLanguageDropdownOpen}
+						onOpenChange={setIsLanguageDropdownOpen}>
 						<DropdownMenuTrigger asChild>
 							<Button
 								variant="ghost"
