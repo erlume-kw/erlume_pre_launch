@@ -31,7 +31,9 @@ export function SEO({ title, description, canonicalPath }: SEOProps) {
 				link.setAttribute("rel", "canonical");
 				document.head.appendChild(link);
 			}
-			const origin = window.location.origin;
+			// Safety check for window.location.origin
+			const origin =
+				typeof window !== "undefined" ? window.location.origin : "";
 			link.setAttribute("href", `${origin}${canonicalPath}`);
 		}
 	}, [title, description, canonicalPath]);
