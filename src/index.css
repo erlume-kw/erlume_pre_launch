@@ -154,6 +154,165 @@
     scroll-behavior: smooth;
   }
 
+  /* RTL Support */
+  [dir="rtl"] {
+    direction: rtl;
+    text-align: right;
+  }
+
+  /* Flex direction overrides */
+  [dir="rtl"] .flex-row {
+    flex-direction: row-reverse;
+  }
+
+  [dir="rtl"] .flex-row-reverse {
+    flex-direction: row;
+  }
+
+  /* Text alignment overrides */
+  [dir="rtl"] .text-left {
+    text-align: left;
+  }
+
+  [dir="rtl"] .text-right {
+    text-align: right;
+  }
+  
+  [dir="rtl"] .text-center {
+    text-align: center;
+  }
+
+  /* Justify content overrides */
+  [dir="rtl"] .justify-start {
+    justify-content: flex-end;
+  }
+
+  [dir="rtl"] .justify-end {
+    justify-content: flex-start;
+  }
+
+  /* Keep justify-center centered for RTL */
+  [dir="rtl"] .justify-center {
+    justify-content: center;
+  }
+
+  /* Margin overrides */
+  [dir="rtl"] .ml-auto {
+    margin-left: unset;
+    margin-right: auto;
+  }
+
+  [dir="rtl"] .mr-auto {
+    margin-right: unset;
+    margin-left: auto;
+  }
+
+  [dir="rtl"] .ml-2 {
+    margin-left: unset;
+    margin-right: 0.5rem;
+  }
+
+  [dir="rtl"] .ml-3 {
+    margin-left: unset;
+    margin-right: 0.75rem;
+  }
+
+  [dir="rtl"] .mr-2 {
+    margin-right: unset;
+    margin-left: 0.5rem;
+  }
+
+  [dir="rtl"] .mr-3 {
+    margin-right: unset;
+    margin-left: 0.75rem;
+  }
+
+  /* Padding overrides */
+  [dir="rtl"] .pl-12 {
+    padding-left: unset;
+    padding-right: 3rem;
+  }
+
+  [dir="rtl"] .pr-12 {
+    padding-right: unset;
+    padding-left: 3rem;
+  }
+
+  [dir="rtl"] .pl-16 {
+    padding-left: unset;
+    padding-right: 4rem;
+  }
+
+  [dir="rtl"] .pr-16 {
+    padding-right: unset;
+    padding-left: 4rem;
+  }
+
+  /* Position overrides */
+  [dir="rtl"] .left-3 {
+    left: unset;
+    right: 0.75rem;
+  }
+
+  [dir="rtl"] .right-3 {
+    right: unset;
+    left: 0.75rem;
+  }
+
+  [dir="rtl"] .left-4 {
+    left: unset;
+    right: 1rem;
+  }
+
+  [dir="rtl"] .right-4 {
+    right: unset;
+    left: 1rem;
+  }
+
+  /* Button and icon spacing */
+  [dir="rtl"] .gap-1 {
+    gap: 0.25rem;
+  }
+
+  [dir="rtl"] .gap-2 {
+    gap: 0.5rem;
+  }
+
+  [dir="rtl"] .gap-3 {
+    gap: 0.75rem;
+  }
+
+  /* Grid and flex order */
+  [dir="rtl"] .order-1 {
+    order: 2;
+  }
+
+  [dir="rtl"] .order-2 {
+    order: 1;
+  }
+
+
+
+  /* Border radius adjustments for RTL */
+  [dir="rtl"] .rounded-l-lg {
+    border-top-left-radius: unset;
+    border-bottom-left-radius: unset;
+    border-top-right-radius: 0.5rem;
+    border-bottom-right-radius: 0.5rem;
+  }
+
+  [dir="rtl"] .rounded-r-lg {
+    border-top-right-radius: unset;
+    border-bottom-right-radius: unset;
+    border-top-left-radius: 0.5rem;
+    border-bottom-left-radius: 0.5rem;
+  }
+
+  /* Select component RTL adjustments */
+  [dir="rtl"] [data-radix-select-trigger] svg {
+    transform: rotate(180deg);
+  }
+
   /* Enhanced focus styles */
   *:focus-visible {
     @apply outline-none ring-2 ring-primary/50 ring-offset-2 ring-offset-background;
@@ -410,43 +569,56 @@ button, a, input, select, textarea {
   @apply transition-all duration-normal ease-smooth;
 }
 
-/* Mobile-specific adjustments */
-@media (max-width: 768px) {
-  .btn-primary, .btn-secondary, .btn-outline, .btn-ghost, .btn-destructive {
-    @apply px-4 py-2.5 text-sm rounded-md;
+  /* Mobile-specific adjustments */
+  @media (max-width: 768px) {
+    .btn-primary, .btn-secondary, .btn-outline, .btn-ghost, .btn-destructive {
+      @apply px-4 py-2.5 text-sm rounded-md;
+    }
+
+    .btn-lg {
+      @apply px-6 py-3 text-base rounded-lg;
+    }
+
+    .btn-xl {
+      @apply px-8 py-4 text-lg rounded-xl;
+    }
+
+    .card-default, .card-elevated, .card-interactive, .card-glass {
+      @apply rounded-lg;
+    }
+
+    .input-default, .select-default {
+      @apply h-11 px-3 py-2.5 text-sm rounded-md;
+    }
+
+    .input-large, .select-large {
+      @apply h-12 px-4 py-3 text-base rounded-lg;
+    }
+
+    .input-small, .select-small {
+      @apply h-9 px-2.5 py-1.5 text-xs rounded-sm;
+    }
+
+    /* Reduce motion within the estimator form on mobile to improve smoothness */
+    #estimator-form * {
+      transition: none !important;
+      animation: none !important;
+      transform: none !important;
+    }
   }
 
-  .btn-lg {
-    @apply px-6 py-3 text-base rounded-lg;
+  /* Large screen adjustments for Arabic text */
+  @media (min-width: 1024px) {
+    .lg\:text-5xl {
+      font-size: 3rem;
+      line-height: 1; /* Reduced line height for better Arabic text readability */
+    }
+    
+    /* Additional Arabic text improvements for large screens */
+    [dir="rtl"] .lg\:text-5xl {
+      line-height: 1.1; /* Slightly more generous line height for Arabic text */
+    }
   }
-
-  .btn-xl {
-    @apply px-8 py-4 text-lg rounded-xl;
-  }
-
-  .card-default, .card-elevated, .card-interactive, .card-glass {
-    @apply rounded-lg;
-  }
-
-  .input-default, .select-default {
-    @apply h-11 px-3 py-2.5 text-sm rounded-md;
-  }
-
-  .input-large, .select-large {
-    @apply h-12 px-4 py-3 text-base rounded-lg;
-  }
-
-  .input-small, .select-small {
-    @apply h-9 px-2.5 py-1.5 text-xs rounded-sm;
-  }
-
-  /* Reduce motion within the estimator form on mobile to improve smoothness */
-  #estimator-form * {
-    transition: none !important;
-    animation: none !important;
-    transform: none !important;
-  }
-}
 
 /* Animation keyframes */
 @keyframes fade-in {
@@ -488,3 +660,250 @@ button, a, input, select, textarea {
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }
 }
+
+/* RTL alignment for form fields and text elements */
+[dir="rtl"] {
+  direction: rtl !important;
+  text-align: right !important;
+}
+
+/* Force RTL alignment for dropdown items */
+[dir="rtl"] [data-radix-select-item] {
+  text-align: right !important;
+  padding-left: 0.5rem !important;
+  padding-right: 2rem !important;
+  direction: rtl !important;
+}
+
+[dir="rtl"] [data-radix-select-item] > div {
+  text-align: right !important;
+  direction: rtl !important;
+}
+
+/* Force all text elements to be RTL in Arabic */
+[dir="rtl"] p,
+[dir="rtl"] h1,
+[dir="rtl"] h2,
+[dir="rtl"] h3,
+[dir="rtl"] h4,
+[dir="rtl"] h5,
+[dir="rtl"] h6,
+[dir="rtl"] span,
+[dir="rtl"] div,
+[dir="rtl"] label {
+  text-align: right !important;
+  direction: rtl !important;
+}
+
+/* Center all Arabic headers */
+[dir="rtl"] h1,
+[dir="rtl"] h2,
+[dir="rtl"] h3,
+[dir="rtl"] h4,
+[dir="rtl"] h5,
+[dir="rtl"] h6 {
+  text-align: center !important;
+  direction: rtl !important;
+}
+
+/* Allow policy headers to be right-aligned */
+[dir="rtl"] h2.text-right {
+  text-align: right !important;
+}
+
+/* Center policy subtitle text */
+[dir="rtl"] .text-muted-foreground {
+  text-align: center !important;
+}
+
+/* Center WhatsApp buttons in RTL mode */
+[dir="rtl"] .text-center {
+  text-align: center !important;
+}
+
+[dir="rtl"] .flex.justify-center {
+  justify-content: center !important;
+}
+
+/* Estimator-specific RTL alignment */
+[dir="rtl"] #estimator-form {
+  direction: rtl !important;
+}
+
+[dir="rtl"] #estimator-form h1,
+[dir="rtl"] #estimator-form h2,
+[dir="rtl"] #estimator-form h3,
+[dir="rtl"] #estimator-form h4,
+[dir="rtl"] #estimator-form h5,
+[dir="rtl"] #estimator-form h6 {
+  text-align: center !important;
+  direction: rtl !important;
+}
+
+[dir="rtl"] #estimator-form .text-center {
+  text-align: center !important;
+}
+
+[dir="rtl"] #estimator-form .text-left {
+  text-align: right !important;
+}
+
+[dir="rtl"] #estimator-form .text-right {
+  text-align: left !important;
+}
+
+[dir="rtl"] #estimator-form [data-radix-select-item] {
+  text-align: right !important;
+  padding-left: 0.5rem !important;
+  padding-right: 2rem !important;
+  direction: rtl !important;
+}
+
+[dir="rtl"] #estimator-form [data-radix-select-item] > div {
+  text-align: right !important;
+  direction: rtl !important;
+}
+
+[dir="rtl"] #estimator-form p {
+  margin-bottom: 0.75rem !important;
+  line-height: 1.6 !important;
+}
+
+[dir="rtl"] #estimator-form label {
+  margin-bottom: 0.5rem !important;
+  padding-right: 0.25rem !important;
+}
+
+[dir="rtl"] #estimator-form input,
+[dir="rtl"] #estimator-form select,
+[dir="rtl"] #estimator-form textarea {
+  padding: 0.75rem 1rem !important;
+  margin-bottom: 0.5rem !important;
+}
+
+/* Price breakdown specific RTL alignment */
+[dir="rtl"] .price-breakdown h3,
+[dir="rtl"] .price-breakdown p,
+[dir="rtl"] .price-breakdown .text-xs {
+  text-align: right !important;
+  direction: rtl !important;
+}
+
+[dir="rtl"] .price-breakdown .text-muted-foreground {
+  text-align: right !important;
+  direction: rtl !important;
+}
+
+/* Specific price breakdown text elements */
+[dir="rtl"] .price-breakdown .text-sm,
+[dir="rtl"] .price-breakdown .text-lg,
+[dir="rtl"] .price-breakdown .text-xl {
+  text-align: right !important;
+  direction: rtl !important;
+}
+
+/* Price breakdown headers only - right aligned */
+[dir="rtl"] #price-breakdown h3,
+[dir="rtl"] #price-breakdown h4 {
+  text-align: right !important;
+  direction: rtl !important;
+}
+
+/* Price breakdown descriptions - keep center */
+[dir="rtl"] #price-breakdown p,
+[dir="rtl"] #price-breakdown .text-xs,
+[dir="rtl"] #price-breakdown .text-muted-foreground {
+  text-align: center !important;
+  direction: rtl !important;
+}
+
+/* Price breakdown prices - keep right */
+[dir="rtl"] #price-breakdown .text-lg,
+[dir="rtl"] #price-breakdown .text-xl,
+[dir="rtl"] #price-breakdown .text-2xl,
+[dir="rtl"] #price-breakdown .text-3xl,
+[dir="rtl"] #price-breakdown .text-4xl {
+  text-align: right !important;
+  direction: rtl !important;
+}
+
+/* Transparent pricing subtitle - right aligned only */
+[dir="rtl"] #price-breakdown .text-muted-foreground {
+  text-align: right !important;
+  direction: rtl !important;
+}
+
+/* Move percentages to the left side in RTL */
+[dir="rtl"] #price-breakdown .text-sm.font-semibold.text-muted-foreground {
+  text-align: left !important;
+  direction: rtl !important;
+}
+
+/* Position percentage above the price */
+[dir="rtl"] #price-breakdown .text-right {
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: flex-end !important;
+  align-items: flex-end !important;
+  gap: 0.25rem !important;
+}
+
+/* Ensure percentage is above the price */
+[dir="rtl"] #price-breakdown .text-sm.font-semibold.text-muted-foreground {
+  order: 1 !important;
+  text-align: right !important;
+}
+
+[dir="rtl"] #price-breakdown .text-lg.font-bold.text-foreground,
+[dir="rtl"] #price-breakdown .text-xl.font-bold.text-foreground {
+  order: 2 !important;
+  text-align: right !important;
+}
+
+/* Hero section text - right aligned only */
+[dir="rtl"] #hero-section h1,
+[dir="rtl"] #hero-section h2,
+[dir="rtl"] #hero-section p {
+  text-align: right !important;
+  direction: rtl !important;
+}
+
+/* Hero section subtitle and description */
+[dir="rtl"] #hero-section .text-muted-foreground,
+[dir="rtl"] #hero-section .text-lg {
+  text-align: right !important;
+  direction: rtl !important;
+}
+
+/* Hero section button - center in Arabic */
+[dir="rtl"] #hero-section button {
+  text-align: center !important;
+  justify-content: center !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+}
+
+/* Hero section button container - center in Arabic */
+[dir="rtl"] #hero-section .w-full {
+  display: flex !important;
+  justify-content: center !important;
+}
+
+/* Estimator form subtitle - center in Arabic */
+[dir="rtl"] #estimator-form .text-base.sm\:text-lg.text-foreground.max-w-2xl.mx-auto {
+  text-align: center !important;
+  direction: rtl !important;
+}
+
+/* Estimator form subtitle text - center in Arabic */
+[dir="rtl"] #estimator-form p {
+  text-align: center !important;
+  direction: rtl !important;
+}
+
+/* Hero text elements - right aligned in Arabic */
+[dir="rtl"] .hero-text {
+  text-align: right !important;
+  direction: rtl !important;
+}
+
