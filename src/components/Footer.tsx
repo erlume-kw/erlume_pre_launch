@@ -1,26 +1,32 @@
 import { Link } from "react-router-dom";
 import { Instagram, Facebook, Twitter, Mail, Phone } from "lucide-react";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 export const Footer = () => {
-  const currentYear = new Date().getFullYear();
-  
-  const socialLinks = [
-    { icon: Instagram, href: "https://instagram.com/erlume", label: "Instagram" },
-    { icon: Facebook, href: "https://facebook.com/erlume", label: "Facebook" },
-    { icon: Twitter, href: "https://twitter.com/erlume", label: "Twitter" },
-  ];
+	const currentYear = new Date().getFullYear();
+	const { t, isRTL } = useLanguage();
 
-  const contactInfo = [
-    { icon: Mail, text: "hello@erlume.com", href: "mailto:hello@erlume.com" },
-    { icon: Phone, text: "+965 1234 5678", href: "tel:+96512345678" },
-  ];
+	const socialLinks = [
+		{
+			icon: Instagram,
+			href: "https://instagram.com/erlume",
+			label: "Instagram",
+		},
+		{ icon: Facebook, href: "https://facebook.com/erlume", label: "Facebook" },
+		{ icon: Twitter, href: "https://twitter.com/erlume", label: "Twitter" },
+	];
 
-  return (
-    <footer className="border-t bg-background">
-        {/* <div className="max-w-7xl mx-auto px-4 py-12"> */}
-        {/* <div className="grid grid-cols-1 md:grid-cols-3 gap-8">  */}
-          {/* Brand Section */}
-          {/* <div className="space-y-4">
+	const contactInfo = [
+		{ icon: Mail, text: "hello@erlume.com", href: "mailto:hello@erlume.com" },
+		{ icon: Phone, text: "+965 1234 5678", href: "tel:+96512345678" },
+	];
+
+	return (
+		<footer className="border-t bg-background">
+			{/* <div className="max-w-7xl mx-auto px-4 py-12"> */}
+			{/* <div className="grid grid-cols-1 md:grid-cols-3 gap-8">  */}
+			{/* Brand Section */}
+			{/* <div className="space-y-4">
             <Link to="/" className="flex items-center gap-2">
               <img
                 src={new URL("../assets/erlume_Icon_1_Transparent_green.png", import.meta.url).toString()}
@@ -35,8 +41,8 @@ export const Footer = () => {
             </p>
           </div> */}
 
-          {/* Quick Links */}
-          {/* <div className="space-y-4">
+			{/* Quick Links */}
+			{/* <div className="space-y-4">
             <h3 className="font-semibold text-foreground">Quick Links</h3>
             <nav className="space-y-2">
               <Link to="/" className="block text-sm text-muted-foreground hover:text-foreground transition-colors">
@@ -51,8 +57,8 @@ export const Footer = () => {
             </nav>
           </div> */}
 
-          {/* Contact & Social */}
-          {/* <div className="space-y-4">
+			{/* Contact & Social */}
+			{/* <div className="space-y-4">
             <h3 className="font-semibold text-foreground">Contact</h3>
             <div className="space-y-2">
               {contactInfo.map((contact) => {
@@ -93,13 +99,16 @@ export const Footer = () => {
           </div>
         </div> */}
 
-        {/* Bottom Bar */}
-        <div className="py-8 flex flex-col sm:flex-row justify-center items-center gap-4">
-          <p className="text-sm text-foreground">
-            © {currentYear} Erlume. All rights reserved.
-          </p>
-        </div>
-      {/* </div> */}
-    </footer>
-  );
+			{/* Bottom Bar */}
+			<div
+				className={`py-8 flex flex-col sm:flex-row justify-center items-center gap-4 ${
+					isRTL ? "text-center" : ""
+				}`}>
+				<p className="text-sm text-foreground">
+					{t.copyright.replace("{year}", currentYear.toString())}
+				</p>
+			</div>
+			{/* </div> */}
+		</footer>
+	);
 };
