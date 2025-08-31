@@ -131,7 +131,7 @@ export const EstimatorForm = ({ onCalculate }: EstimatorFormProps) => {
 									}>
 									<SelectTrigger
 										className={`h-11 lg:h-12 transition-none ${
-											isRTL ? "flex-row-reverse" : ""
+											isRTL ? "flex-row" : ""
 										}`}>
 										<SelectValue
 											placeholder={t.selectBrand}
@@ -170,7 +170,7 @@ export const EstimatorForm = ({ onCalculate }: EstimatorFormProps) => {
 									}>
 									<SelectTrigger
 										className={`h-11 lg:h-12 transition-none ${
-											isRTL ? "flex-row-reverse" : ""
+											isRTL ? "flex-row" : ""
 										}`}>
 										<SelectValue
 											placeholder={t.selectCondition}

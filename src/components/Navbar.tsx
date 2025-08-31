@@ -39,6 +39,7 @@ const Logo = ({ onClick }: { onClick?: () => void }) => (
 export default function Navbar() {
 	const [isOpen, setIsOpen] = useState(false);
 	const [isScrolled, setIsScrolled] = useState(false);
+	const [isLanguageDropdownOpen, setIsLanguageDropdownOpen] = useState(false);
 	const { currentLanguage, setLanguage, t, isRTL } = useLanguage();
 
 	useEffect(() => {
@@ -105,17 +106,19 @@ export default function Navbar() {
 					))}
 
 					{/* Language Selector */}
-					<DropdownMenu>
+					<DropdownMenu open={isLanguageDropdownOpen} onOpenChange={setIsLanguageDropdownOpen}>
 						<DropdownMenuTrigger asChild>
 							<Button
 								variant="ghost"
 								size="sm"
 								className={`flex items-center gap-1 hover:bg-muted/10 ${
-									isRTL ? "flex-row-reverse" : ""
+									isRTL ? "flex-row" : ""
 								}`}>
 								<Globe className="h-4 w-4" />
 								<ChevronDown
-									className={`h-3 w-3 ${isRTL ? "rotate-180" : ""}`}
+									className={`h-3 w-3 transition-transform duration-200 ${
+										isLanguageDropdownOpen ? "rotate-180" : ""
+									}`}
 								/>
 							</Button>
 						</DropdownMenuTrigger>
