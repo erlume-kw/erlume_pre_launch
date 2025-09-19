@@ -4,6 +4,7 @@ export const translations = {
 		navItems: [
 			{ to: "/about", label: "About erlume" },
 			{ to: "/policies", label: "Policies" },
+			{ to: "/drop1", label: "Shop Now" },
 		],
 		language: "Language",
 		trustedPlatform: "Trusted luxury resale platform",
@@ -277,6 +278,7 @@ export const translations = {
 		navItems: [
 			{ to: "/about", label: "عن إيرلوم" },
 			{ to: "/policies", label: "السياسات" },
+			{ to: "/drop1", label: "تسوق الآن" },
 		],
 		language: "اللغة",
 		trustedPlatform: "المنصة الموثوقة لإعادة بيع الحقائب الفاخرة",
