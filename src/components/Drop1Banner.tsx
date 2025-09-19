@@ -9,11 +9,11 @@ export const Drop1Banner = () => {
 	const { t, isRTL } = useLanguage();
 
 	return (
-		<div className="relative overflow-hidden bg-gradient-to-r from-primary/10 via-primary/5 to-accent/10 border-b border-primary/20">
+		<div className="relative overflow-hidden bg-gradient-to-r from-primary/10 via-primary/5 to-accent/10 border-b border-primary/20 min-h-screen sm:min-h-0">
 			<div className="absolute inset-0 bg-gradient-to-r from-primary/5 to-transparent"></div>
 
-			<div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-				<div className="flex flex-col lg:flex-row items-center justify-between gap-6">
+			<div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 min-h-screen sm:min-h-0 flex items-center">
+				<div className="flex flex-col lg:flex-row items-center justify-center lg:justify-between gap-6 w-full">
 					{/* Left Content */}
 					<div
 						className={cn(
