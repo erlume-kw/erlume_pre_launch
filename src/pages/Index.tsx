@@ -4,77 +4,83 @@ import { EstimatorForm } from "@/components/EstimatorForm";
 import { PriceBreakdown } from "@/components/PriceBreakdown";
 import { HowItWorks } from "@/components/HowItWorks";
 import { CallToAction } from "@/components/CallToAction";
+import { Drop1Banner } from "@/components/Drop1Banner";
 
 interface BagDetails {
-  brand: string;
-  model: string;
-  condition: string;
-  color: string;
-  size: string;
-  originalPrice: number;
+	brand: string;
+	model: string;
+	condition: string;
+	color: string;
+	size: string;
+	originalPrice: number;
 }
 
 const Index = () => {
-  const [currentStep, setCurrentStep] = useState<'hero' | 'form' | 'breakdown'>('hero');
-  const [bagDetails, setBagDetails] = useState<BagDetails | null>(null);
+	const [currentStep, setCurrentStep] = useState<"hero" | "form" | "breakdown">(
+		"hero",
+	);
+	const [bagDetails, setBagDetails] = useState<BagDetails | null>(null);
 
-  // Smooth scroll utility
-  const smoothScrollTo = (elementId: string, delay: number = 100) => {
-    setTimeout(() => {
-      const element = document.getElementById(elementId);
-      if (element) {
-        element.scrollIntoView({ 
-          behavior: 'smooth', 
-          block: 'center',
-          inline: 'nearest'
-        });
-      }
-    }, delay);
-  };
+	// Smooth scroll utility
+	const smoothScrollTo = (elementId: string, delay: number = 100) => {
+		setTimeout(() => {
+			const element = document.getElementById(elementId);
+			if (element) {
+				element.scrollIntoView({
+					behavior: "smooth",
+					block: "center",
+					inline: "nearest",
+				});
+			}
+		}, delay);
+	};
 
-  const handleGetStarted = () => {
-    setCurrentStep('form');
-    smoothScrollTo('estimator-form');
-  };
+	const handleGetStarted = () => {
+		setCurrentStep("form");
+		smoothScrollTo("estimator-form");
+	};
 
-  const handleCalculate = (details: BagDetails) => {
-    setBagDetails(details);
-    setCurrentStep('breakdown');
-    smoothScrollTo('price-breakdown');
-  };
+	const handleCalculate = (details: BagDetails) => {
+		setBagDetails(details);
+		setCurrentStep("breakdown");
+		smoothScrollTo("price-breakdown");
+	};
 
-  const handleStartSelling = () => {
-    setCurrentStep('form');
-    setBagDetails(null);
-    smoothScrollTo('estimator-form');
-  };
+	const handleStartSelling = () => {
+		setCurrentStep("form");
+		setBagDetails(null);
+		smoothScrollTo("estimator-form");
+	};
 
-  return (
-    <div>
-      {/* Hero Section - Always visible */}
-      <HeroSection onGetStarted={handleGetStarted} />
-      
-      {/* Estimator Form - Shows after getting started */}
-      {(currentStep === 'form' || currentStep === 'breakdown') && (
-        <div id="estimator-form">
-          <EstimatorForm onCalculate={handleCalculate} />
-        </div>
-      )}
-      
-      {/* Price Breakdown - Shows after calculation */}
-      {currentStep === 'breakdown' && bagDetails && (
-        <div id="price-breakdown">
-          <PriceBreakdown bagDetails={bagDetails} />
-        </div>
-      )}
-      
-      {/* How It Works - Always visible */}
-      <HowItWorks />
-      
-      {/* Call to Action - Always visible */}
-      <CallToAction onStartSelling={handleStartSelling} />
-    </div>
-  );
+	return (
+		<div>
+			{/* Drop 1 Banner - Always visible at top */}
+			<Drop1Banner />
+
+			{/* Hero Section - Always visible */}
+			<HeroSection onGetStarted={handleGetStarted} />
+
+			{/* Estimator Form - Shows after getting started */}
+			{(currentStep === "form" || currentStep === "breakdown") && (
+				<div id="estimator-form">
+					<EstimatorForm onCalculate={handleCalculate} />
+				</div>
+			)}
+
+			{/* Price Breakdown - Shows after calculation */}
+			{currentStep === "breakdown" && bagDetails && (
+				<div id="price-breakdown">
+					<PriceBreakdown bagDetails={bagDetails} />
+				</div>
+			)}
+
+			{/* How It Works - Always visible */}
+			<HowItWorks />
+
+			{/* Call to Action - Always visible */}
+			<CallToAction onStartSelling={handleStartSelling} />
+		</div>
+	);
 };
 
 export default Index;

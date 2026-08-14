@@ -11,6 +11,7 @@ import Navbar from "./components/Navbar";
 import { Footer } from "./components/Footer";
 import About from "./pages/About";
 import Policies from "./pages/Policies";
+import Drop1 from "./pages/Drop1";
 import { LanguageProvider, useLanguage } from "@/contexts/LanguageContext";
 
 const queryClient = new QueryClient();
@@ -34,6 +35,7 @@ const AppContent = () => {
 					<main className="flex-1">
 						<Routes>
 							<Route path="/" element={<Index />} />
+							<Route path="/drop1" element={<Drop1 />} />
 							<Route path="/about" element={<About />} />
 							<Route path="/policies" element={<Policies />} />
 							{/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
