@@ -1,114 +1,49 @@
 import { Link } from "react-router-dom";
-import { Instagram, Facebook, Twitter, Mail, Phone } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
 
 export const Footer = () => {
 	const currentYear = new Date().getFullYear();
 	const { t, isRTL } = useLanguage();
 
-	const socialLinks = [
-		{
-			icon: Instagram,
-			href: "https://instagram.com/erlume",
-			label: "Instagram",
-		},
-		{ icon: Facebook, href: "https://facebook.com/erlume", label: "Facebook" },
-		{ icon: Twitter, href: "https://twitter.com/erlume", label: "Twitter" },
-	];
-
-	const contactInfo = [
-		{ icon: Mail, text: "hello@erlume.com", href: "mailto:hello@erlume.com" },
-		{ icon: Phone, text: "+965 1234 5678", href: "tel:+96512345678" },
-	];
-
 	return (
-		<footer className="border-t bg-background">
-			{/* <div className="max-w-7xl mx-auto px-4 py-12"> */}
-			{/* <div className="grid grid-cols-1 md:grid-cols-3 gap-8">  */}
-			{/* Brand Section */}
-			{/* <div className="space-y-4">
-            <Link to="/" className="flex items-center gap-2">
-              <img
-                src={new URL("../assets/erlume_Icon_1_Transparent_green.png", import.meta.url).toString()}
-                alt="Erlume logo"
-                className="h-8 w-auto"
-              />
-              <span className="text-xl font-semibold">Erlume</span>
-            </Link>
-            <p className="text-sm text-muted-foreground max-w-xs">
-              Kuwait's trusted destination for luxury pre-loved bags. 
-              Transparent, hassle-free resale experience.
-            </p>
-          </div> */}
+		<footer className="border-t bg-gradient-to-b from-background to-muted/20">
+			<div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-12">
+				<div
+					className={`flex flex-col items-center gap-5 text-center ${
+						isRTL ? "text-center" : ""
+					}`}>
+					<Link
+						to="/"
+						className="flex items-center gap-2 transition-transform duration-normal ease-smooth hover:scale-105">
+						<img
+							src={new URL(
+								"../assets/erlume_Icon_1_Transparent_green.png",
+								import.meta.url,
+							).toString()}
+							alt="Erlume logo"
+							className="h-8 w-auto"
+						/>
+					</Link>
 
-			{/* Quick Links */}
-			{/* <div className="space-y-4">
-            <h3 className="font-semibold text-foreground">Quick Links</h3>
-            <nav className="space-y-2">
-              <Link to="/" className="block text-sm text-muted-foreground hover:text-foreground transition-colors">
-                Home
-              </Link>
-              <Link to="/about" className="block text-sm text-muted-foreground hover:text-foreground transition-colors">
-                About Us
-              </Link>
-              <Link to="/policies" className="block text-sm text-muted-foreground hover:text-foreground transition-colors">
-                Policies
-              </Link>
-            </nav>
-          </div> */}
+					<div className="inline-flex items-center px-5 py-2.5 rounded-full bg-accent/50 border border-accent/60 shadow-sm">
+						<span
+							className="text-sm sm:text-base font-semibold text-accent-foreground tracking-wide"
+							dir={isRTL ? "rtl" : "ltr"}>
+							{t.companyName}
+						</span>
+					</div>
 
-			{/* Contact & Social */}
-			{/* <div className="space-y-4">
-            <h3 className="font-semibold text-foreground">Contact</h3>
-            <div className="space-y-2">
-              {contactInfo.map((contact) => {
-                const Icon = contact.icon;
-                return (
-                  <a
-                    key={contact.text}
-                    href={contact.href}
-                    className="flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors"
-                  >
-                    <Icon className="w-4 h-4" />
-                    {contact.text}
-                  </a>
-                );
-              })}
-            </div>
-            
-            <div className="pt-2">
-              <h4 className="text-sm font-medium text-foreground mb-3">Follow Us</h4>
-              <div className="flex gap-3">
-                {socialLinks.map((social) => {
-                  const Icon = social.icon;
-                  return (
-                    <a
-                      key={social.label}
-                      href={social.href}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="p-2 border border-border rounded-lg hover:bg-muted transition-colors"
-                      aria-label={social.label}
-                    >
-                      <Icon className="w-4 h-4" />
-                    </a>
-                  );
-                })}
-              </div>
-            </div>
-          </div>
-        </div> */}
+					<p className="text-sm text-muted-foreground max-w-md">
+						{t.trustedPlatform}
+					</p>
+				</div>
 
-			{/* Bottom Bar */}
-			<div
-				className={`py-8 flex flex-col sm:flex-row justify-center items-center gap-4 ${
-					isRTL ? "text-center" : ""
-				}`}>
-				<p className="text-sm text-foreground">
-					{t.copyright.replace("{year}", currentYear.toString())}
-				</p>
+				<div className="mt-8 pt-6 border-t border-border/50 text-center">
+					<p className="text-sm text-muted-foreground">
+						{t.copyright.replace("{year}", currentYear.toString())}
+					</p>
+				</div>
 			</div>
-			{/* </div> */}
 		</footer>
 	);
 };

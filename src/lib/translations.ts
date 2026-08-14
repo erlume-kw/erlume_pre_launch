@@ -59,6 +59,7 @@ export const translations = {
 		chatWhatsApp: "Chat with us on WhatsApp",
 
 		// Footer
+		companyName: "Erlume Fashion Company for Product Promotion",
 		copyright: "© {year} Erlume. All rights reserved.",
 
 		// Estimator Form
@@ -333,6 +334,7 @@ export const translations = {
 		chatWhatsApp: "تحدث معنا عبر واتساب",
 
 		// Footer
+		companyName: "شركة فاشن ايرلوم لترويج المنتجات",
 		copyright: "إيرلوم. جميع الحقوق محفوظة© {year}. ",
 
 		// Estimator Form
